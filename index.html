@@ -74,9 +74,9 @@
       } else if (location < 311) {
         g = 100 + 310 - location;
         b = 100 + location - 155;
-      } else {
+      } else if (location < 465) {
         b = 100 + 465 - location;
-        r = 100 + location - 465;
+        r = 100 + location - 310;
       }
 
       return `rgb(${r}, ${g}, ${b})`;
