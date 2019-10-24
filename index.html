@@ -52,7 +52,7 @@
     }
 
     function getColorArray(length) {
-      var step = 765 / length;
+      var step = 465 / length;
       var colors = [];
 
       for(let i = 0; i < length; i++) {
@@ -63,20 +63,20 @@
     }
 
     function toColor(location) {
-      var total = 765;
-      var r = 0;
-      var g = 0;
-      var b = 0;
+      var total = 465;
+      var r = 100;
+      var g = 100;
+      var b = 100;
       
-      if (location < 256) {
-        r = 255 - location;
-        g = location;
-      } else if (location < 511) {
-        g = 511 - location;
-        b = location - 255;
-      } else if (location < 766) {
-        b = 766 - location;
-        r = location - 511;
+      if (location < 156) {
+        r = 100 + 155 - location;
+        g = 100 + location;
+      } else if (location < 311) {
+        g = 100 + 310 - location;
+        b = 100 + location - 155;
+      } else {
+        b = 100 + 465 - location;
+        r = 100 + location - 465;
       }
 
       return `rgb(${r}, ${g}, ${b})`;
