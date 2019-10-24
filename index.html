@@ -40,22 +40,21 @@
   </style>
 
   <script>
+    window.addEventListener('contextmenu', e => e.preventDefault());
     window.addEventListener("click", (e) => {
-      if (e.shiftKey) {
-        var id = Math.random();
-        var element = `<div id="${id}" class="enux" style="top: ${e.clientY - 15}px; left: ${e.clientX - 40}px">
-          <span style="color:#ff0000">E</span>
-          <span style="color:#55ff00">N</span>
-          <span style="color:#55ff00">U</span>
-          <span style="color:#ff00ff">X</span>
-        </div>`
-        var content = document.querySelector('.content');
-        content.innerHTML = content.innerHTML + element;
-        setTimeout(() => {
-          var element = document.getElementById(id);
-          element.parentNode.removeChild(element);
-        }, 1000);
-      }
+      var id = Math.random();
+      var element = `<div id="${id}" class="enux" style="top: ${e.clientY - 15}px; left: ${e.clientX - 40}px">
+        <span style="color:#ff0000">E</span>
+        <span style="color:#55ff00">N</span>
+        <span style="color:#55ff00">U</span>
+        <span style="color:#ff00ff">X</span>
+      </div>`
+      var content = document.querySelector('.content');
+      content.innerHTML = content.innerHTML + element;
+      setTimeout(() => {
+        var element = document.getElementById(id);
+        element.parentNode.removeChild(element);
+      }, 1000);
     })
   </script>
 </head>
