@@ -36,25 +36,77 @@
 
     .enux {
       position: absolute;
+      transform: translate(-50%, -50%);
     }
   </style>
 
   <script>
+    function createWord(word) {
+      var chars = word.split('');
+      var colors = getColorArray(chars.length);
+      var r = '';
+      for (let i in chars) {
+        r += `<span style="color:${colors[i]};">${chars[i]}</span>`;
+      }
+      return r;
+    }
+
+    function getColorArray(length) {
+      var step = 765 / length;
+      var colors = [];
+
+      for(let i = 0; i < length; i++) {
+        colors.push(toColor(step * i))
+      }
+
+      return colors;
+    }
+
+    function toColor(location) {
+      var total = 765;
+      var r = 0;
+      var g = 0;
+      var b = 0;
+      
+      if (location < 256) {
+        r = 255 - location;
+        g = location;
+      } else if (location < 511) {
+        g = 511 - location;
+        b = location - 255;
+      } else if (location < 766) {
+        b = 766 - location;
+        r = location - 511;
+      }
+
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    var words = [
+      'ONY GOLD',
+      'RAIDER SIND AUCH NUR TRIALS',
+      'MICH HABEN 15 LEUTE ANGEWHISPERED',
+      'SOWAS HAB ICH IN 15 JAHREN NICHT ERLEBT',
+      'RAGGI HAMMER GEHT AN MAINTANK',
+      'LUL @ LUL',
+      'HOBN',
+      'DALOREO',
+      'MP5GANG',
+      'BOOSTWKN',
+      'DRACARYS+',
+      'ICH LÖSCH GLEICH MEINEN HUNTER'
+    ]
+
     window.addEventListener('contextmenu', e => e.preventDefault());
     window.addEventListener("click", (e) => {
       var id = Math.random();
-      var element = `<div id="${id}" class="enux" style="top: ${e.clientY - 15}px; left: ${e.clientX - 40}px">
-        <span style="color:#ff0000">E</span>
-        <span style="color:#55ff00">N</span>
-        <span style="color:#55ff00">U</span>
-        <span style="color:#ff00ff">X</span>
-      </div>`
+      var element = `<div id="${id}" class="enux" style="top: ${e.clientY}px; left: ${e.clientX}px">${createWord(words[Math.floor(Math.random() * words.length)])}</div>`
       var content = document.querySelector('.content');
       content.innerHTML = content.innerHTML + element;
       setTimeout(() => {
         var element = document.getElementById(id);
         element.parentNode.removeChild(element);
-      }, 1000);
+      }, 10000);
     })
   </script>
 </head>
