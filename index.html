@@ -19,6 +19,7 @@
         font-size: 24px;
         background: #282c34;
         color: white;
+        overflow: hidden;
     }
 
     .content {
@@ -34,9 +35,19 @@
                 user-select: none;
     }
 
-    .enux {
+    .counter {
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 18px;
+      color: #777;
+    }
+
+    .floater {
       position: absolute;
       transform: translate(-50%, -50%);
+      font-size: 18px;
     }
   </style>
 
@@ -82,6 +93,26 @@
       return `rgb(${r}, ${g}, ${b})`;
     }
 
+    function word(e) {
+      var id = Math.random();
+      var element = `<div id="${id}" class="floater" style="top: ${e.clientY}px; left: ${e.clientX}px">${createWord(words[Math.floor(Math.random() * words.length)])}</div>`
+      var content = document.querySelector('.content');
+      content.innerHTML = content.innerHTML + element;
+      setTimeout(() => {
+        var element = document.getElementById(id);
+        element.parentNode.removeChild(element);
+      }, 2500);
+
+      counter++;
+      counterElement = document.querySelector('.counter');
+      counterElement.innerHTML = counter.toString();
+
+      if (counter >= 10) {
+        var title = document.querySelector('.title');
+        title.parentNode.removeChild(title);
+      }
+    }
+
     var words = [
       'ONY GOLD',
       'RAIDER SIND AUCH NUR TRIALS',
@@ -101,27 +132,28 @@
       'CINDY & BERT',
       'WAS IST DEN MIT DER KISTE?',
       'KOMMT JED NOCH?',
-      'HOBNGBOH DER SCHWARZE MAGIER'
+      'HOBNGBOH DER SCHWARZE MAGIER',
+      'FOGEL'
     ]
 
+    var counter = 0;
+
     document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener("click", (e) => {
-      var id = Math.random();
-      var element = `<div id="${id}" class="enux" style="top: ${e.clientY}px; left: ${e.clientX}px">${createWord(words[Math.floor(Math.random() * words.length)])}</div>`
-      var content = document.querySelector('.content');
-      content.innerHTML = content.innerHTML + element;
-      setTimeout(() => {
-        var element = document.getElementById(id);
-        element.parentNode.removeChild(element);
-      }, 2500);
-    })
+    document.addEventListener("click", e => { word(e); });
+
+    if (Math.random() < 0.005) {
+      setInterval(() => {
+        word({clientY: Math.random() * window.innerHeight, clientX: Math.random() * window.innerWidth});
+      }, 10)
+    }
   </script>
 </head>
 
 <body>
   <div class="content" onclick="void(0);">
-      Hier könnte eine GDKP Seite sein, es ist aber nicht mehr 2004.
+      <span class="title">Hier könnte eine GDKP Seite sein, es ist aber nicht mehr 2004.</span>
   </div>
+  <div class="counter" onclick="void(0);"></div>
 </body>
 
 </html>
