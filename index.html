@@ -49,6 +49,14 @@
       transform: translate(-50%, -50%);
       font-size: 18px;
     }
+
+    .emote {
+      position: absolute;
+      transition: all 1s ease-in-out;
+      opacity: 0;
+      width: 32px;
+      height: 32px;
+    }
   </style>
 
   <script>
@@ -113,6 +121,79 @@
       }
     }
 
+    function randomEmote() {
+      var id = Math.random();
+      var emote = emotes[Math.floor(Math.random() * emotes.length)];
+      var content = document.querySelector('.content');
+      var x = Math.floor(Math.random() * (content.scrollWidth - 32));
+      var y = Math.floor(Math.random() * (content.scrollHeight - 32));
+      var element = `<img id="${id}" class="emote" src="emotes/${emote}" style="top: ${y}px; left: ${x}px" />`;
+      content.innerHTML = content.innerHTML + element;
+      setTimeout(() => {
+        element = document.getElementById(id);
+        element.style.opacity = 1;
+      }, 1000);
+
+      activeEmotes[id] = setInterval(() => {
+        x = Math.floor(Math.random() * (content.scrollWidth - 32));
+        y = Math.floor(Math.random() * (content.scrollHeight - 32));
+        element = document.getElementById(id);
+        element.style.top = y + 'px';
+        element.style.left = x + 'px';
+      }, 1000)
+
+      setTimeout(() => {
+        element = document.getElementById(id);
+        element.style.opacity = 0;
+      }, 9000)
+      
+      setTimeout((interval) => {
+        element = document.getElementById(id);
+        element.parentNode.removeChild(element);
+        clearInterval(activeEmotes[id]);
+        delete activeEmotes[id];
+      }, 10000);
+    }
+
+    var activeEmotes = Object.create(null);
+
+    function nextTitle() {
+      currentTitle++;
+      if (currentTitle < titles.length) {
+        var element = document.querySelector('.title');
+        element.innerHTML = titles[currentTitle];
+        if (currentTitle == titles.length - 2) {
+          setInterval(() => {
+            randomEmote();
+            randomEmote();
+            randomEmote();
+            randomEmote();
+            randomEmote();
+          }, 1000);
+        }
+      } else {
+        clearInterval(titleInterval);
+      }
+    }
+
+    var titles = [
+      'Hier könnte eine GDKP Seite sein, es ist aber nicht mehr 2004.',
+      'Eine Taube hat mir zugeflüstert, das Klicken richtig cool ist.',
+      'Also irgendwie fehlt hier etwas...',
+      '...',
+      '',
+    ]
+
+    var emotes = [
+      'autobett.png',
+      'guurrbohammer.png',
+      'sharaduspassti.png',
+      'bathobn.png',
+      'guurrrave.gif',
+      'peponostonks.png',
+      'pepostonks.png',
+    ]
+
     var words = [
       'ONY GOLD',
       'RAIDER SIND AUCH NUR TRIALS',
@@ -148,7 +229,7 @@
       'LOL UND TASKERA',
       'MEBOH, DER FLÜCHTLING VON LUCIFRON',
       'DIE LUCIFRON FLÜCHTLINGE KLAUEN UNSERE JERBS',
-      'ARCANITBOMBEN BEI FEARLINA',
+      'ARKANITBOMBEN BEI FEARLINA',
       'WIE SOLL ICH DENN SO BACKSTABBEN',
       'TWITCH GUURRBO',
       'SHARA DU SPASSTI',
@@ -186,7 +267,7 @@
       'SCHWEIZER NACHTEIL',
       'DU REDEST MIR NICHT IN WORT',
       'DER MAGE HAT MIXERBRAIN',
-      'HOBN HAST LEFT THE GUILD',
+      'HOBN HAS LEFT THE GUILD',
       'VERTRAU MIR',
       'MALAIKA ORB',
       'KOMMUNISTEN STRAT LIV',
@@ -194,6 +275,7 @@
     ]
 
     var counter = 0;
+    var currentTitle = 0;
 
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener("click", e => { 
@@ -204,12 +286,22 @@
         }, 10)
       }
     });
+    var emoteInterval = setInterval(() => {
+      if (Math.random() < 0.0005 && counter >= 10) {
+        randomEmote();
+      }
+    }, 1000)
+    var titleInterval = setInterval(() => {
+      if (counter < 10) {
+        nextTitle();
+      }
+    }, 10000)
   </script>
 </head>
 
 <body>
   <div class="content" onclick="void(0);">
-      <span class="title">Hier könnte eine GDKP Seite sein, es ist aber nicht mehr 2004.</span>
+      <span class="title">Hier könnte eine GDKP Seite sein, es ist aber nicht mehr 2004.</span><img class="emote" src="emotes/guurrbohammer.png" style="top: 235px; left: 532px" />
   </div>
   <div class="counter" onclick="void(0);"></div>
 </body>
