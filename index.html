@@ -60,6 +60,15 @@
   </style>
 
   <script>
+    function clickFunction(e) {
+      word(e);
+      if (Math.random() < 0.0005) {
+        setInterval(() => {
+          word({clientY: Math.random() * window.innerHeight, clientX: Math.random() * window.innerWidth});
+        }, 10)
+      }
+    }
+
     function createWord(word) {
       var chars = word.split('');
       var colors = getColorArray(chars.length);
@@ -170,6 +179,7 @@
             randomEmote();
             randomEmote();
           }, 1000);
+          document.removeEventListener("click", clickFunction);
         }
       } else {
         clearInterval(titleInterval);
@@ -271,21 +281,17 @@
       'VERTRAU MIR',
       'MALAIKA ORB',
       'KOMMUNISTEN STRAT LIV',
-      'HOL DIR DOCH NEN STRICK'
+      'HOL DIR DOCH NEN STRICK',
+      'MEINE GIFTE PROCCEN NICHT',
+      'MEIN SERENITY PROCCT NICHT'
     ]
 
     var counter = 0;
     var currentTitle = 0;
 
     document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener("click", e => { 
-      word(e);
-      if (Math.random() < 0.0005) {
-        setInterval(() => {
-          word({clientY: Math.random() * window.innerHeight, clientX: Math.random() * window.innerWidth});
-        }, 10)
-      }
-    });
+    document.addEventListener("click", clickFunction);
+    
     var emoteInterval = setInterval(() => {
       if (Math.random() < 0.0005 && counter >= 10) {
         randomEmote();
@@ -295,7 +301,7 @@
       if (counter < 10) {
         nextTitle();
       }
-    }, 10000)
+    }, 25000)
   </script>
 </head>
 
